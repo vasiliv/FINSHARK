@@ -30,7 +30,7 @@ namespace api.Repository
 
         public async Task<Comment?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Comments.FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public async Task<Comment?> UpdateAsync(int id, UpdateCommentRequestDto stockDto)
