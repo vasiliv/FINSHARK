@@ -22,7 +22,14 @@ namespace api.Repository
 
         public async Task<Comment?> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var commentModel = await _context.Comments.FirstOrDefaultAsync(i => i.Id == id);
+            if (commentModel == null)
+            {
+                return null;
+            }
+            _context.Comments.Remove(commentModel);
+            await _context.SaveChangesAsync();
+            return commentModel;
         }
 
         public async Task<List<Comment>> GetAllAsync()
