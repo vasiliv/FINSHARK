@@ -43,7 +43,7 @@ namespace api.Controllers
             //return Ok(stocks);
             return Ok(stockDto);
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         //public IActionResult GetById([FromRoute] int id)
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
@@ -65,6 +65,7 @@ namespace api.Controllers
         //public IActionResult Create([FromBody] CreateStockRequestDto stockDto)
         public async Task<IActionResult> Create([FromBody] CreateStockRequestDto stockDto)
         {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
             var stockModel = stockDto.ToStockFromCreateDTO();
             //_context.Stocks.Add(stockModel);
             //_context.SaveChanges();
@@ -80,10 +81,11 @@ namespace api.Controllers
             return CreatedAtAction(nameof(GetById), new {id = stockModel.Id}, stockModel.ToStockDto());
         }
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         //public IActionResult Update([FromRoute] int id, [FromBody] UpdateStockRequestDto updateDto)
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDto updateDto)
         {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
             //var stockModel = _context.Stocks.FirstOrDefault(s => s.Id == id);
 
             //change to async
@@ -113,7 +115,7 @@ namespace api.Controllers
             return Ok(stockModel.ToStockDto());
         }
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         //public IActionResult Delete([FromRoute] int id)
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
