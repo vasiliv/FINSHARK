@@ -1,5 +1,6 @@
 ﻿using api.Data;
 using api.Dtos.Stock;
+using api.Helpers;
 using api.Interfaces;
 using api.Mappers;
 using api.Models;
@@ -27,7 +28,12 @@ namespace api.Controllers
         }
         [HttpGet]
         //public IActionResult GetAll()
-        public async Task<IActionResult> GetAll()
+
+        //async
+        //public async Task<IActionResult> GetAll()
+
+        //Filtering
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
             //var stocks = _context.Stocks.ToList()
             //    .Select(s => s.ToStockDto());
@@ -36,7 +42,7 @@ namespace api.Controllers
             //var stocks = await _context.Stocks.ToListAsync();
 
             //change to repository pattern
-            var stocks = await _stockRepo.GetAllAsync();
+            var stocks = await _stockRepo.GetAllAsync(query);
 
             var stockDto = stocks.Select(s => s.ToStockDto());
 
